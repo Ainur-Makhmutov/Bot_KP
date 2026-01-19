@@ -111,7 +111,7 @@ headers = {
     "x-client-version": "1181",
     "x-device-token": "41f1f02c-7d55-4ec5-9103-84916b629dd6",
     "x-request-cid": "f5adbfe9-efc2-4776-9c03-79f6535c1556",
-    "x-session-id": SEE,
+    "x-session-id": "cd8fc8a1-5ba5-42d4-abaa-f4d6fb104b7c",
 
     # === ДОПОЛНИТЕЛЬНЫЕ ===
     "priority": "u=1, i",
