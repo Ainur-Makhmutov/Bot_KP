@@ -5,24 +5,37 @@ import os
 import json
 import re
 
+
 # ====== OCR ФУНКЦИИ ======
 # OCR.Space API
-def ocr_space_api(image_path, api_key='K88266104688957'):
+def ocr_space_api(image_path):
 
     try:
         with open(image_path, 'rb') as image_file:
             url = "https://api.ocr.space/parse/image"
+            api_key = 'K88266104688957'
+            # Проверка размера
+            file_size = os.path.getsize(image_path)
+            if file_size > 1024 * 1024:
+                return f"Файл слишком большой: {file_size / 1024 / 1024:.2f} МБ"
+
+            # Добавляем заголовки
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
 
             payload = {
                 'apikey': api_key,  # Бесплатный демо-ключ
                 'language': 'rus',  # Русский язык
                 'isOverlayRequired': False,
-                'OCREngine': 2  # Более точный движок
+                'OCREngine': 2,  # Более точный движок
+                'detectOrientation': True,
+                'scale': True
             }
 
-            files = {'image': image_file}
+            files = {'image': ('filename.jpg', image_file, 'image/jpeg')}
 
-            response = requests.post(url, files=files, data=payload, timeout=30)
+            response = requests.post(url, files=files, data=payload, headers=headers, timeout=30)
             result = response.json()
 
             if result.get('ParsedResults'):
@@ -35,26 +48,6 @@ def ocr_space_api(image_path, api_key='K88266104688957'):
         return "Таймаут запроса к API"
     except Exception as e:
         return f"Ошибка запроса: {str(e)}"
-
-
-# Локальный Tesseract
-def ocr_local(image_path):
-    """
-    Локальный OCR с помощью Tesseract
-    Установите:
-    1. pip install pytesseract pillow
-    2. Установите Tesseract OCR: https://github.com/UB-Mannheim/tesseract/wiki
-    """
-    try:
-        # Открываем изображение
-        image = Image.open(image_path)
-
-        # Извлекаем текст
-        text = pytesseract.image_to_string(image, lang='rus+eng')
-
-        return text.strip()
-    except Exception as e:
-        return f"Ошибка OCR: {str(e)}"
 
 
 # ====== ПАРСЕР ДЛЯ СКРИНШОТОВ ОСАДЫ ======
@@ -103,59 +96,8 @@ def parse_siege_ocr_text(ocr_text):
                 "score": int(score) if score.isdigit() else score
             })
 
-    # Если не нашли через regex, попробуем ручной парсинг
-    if not result["players"]:
-        result = manual_parse_fallback(lines)
-
     return result
 
-# Ручной парсинг для сложных случаев
-def manual_parse_fallback(lines):
-    """
-    Ручной парсинг для сложных случаев
-    """
-    result = {
-        "event": "Осада — Ледяная пустошь",
-        "week": "Текущая неделя",
-        "total_players": "2164",
-        "players": []
-    }
-
-    position = 1
-    i = 0
-
-    while i < len(lines) and position <= 10:  # Максимум 10 игроков
-        line = lines[i]
-
-        # Пропускаем заголовки
-        if any(keyword in line for keyword in ['Осада', 'Текущая', 'Игроки', 'Всего:', 'Кланы']):
-            i += 1
-            continue
-
-        # Ищем очень длинные числа (очки)
-        numbers = re.findall(r'\b\d{7,}\b', line)
-
-        if numbers and len(numbers[0]) >= 7:
-            score = numbers[0]
-
-            # Имя - все перед числом
-            name_part = line.split(score)[0].strip()
-
-            # Если есть предыдущая строка без чисел, возможно это часть имени
-            if i > 0 and not re.search(r'\d{7,}', lines[i - 1]):
-                name_part = lines[i - 1] + " " + name_part
-
-            if name_part:
-                result["players"].append({
-                    "position": position,
-                    "name": name_part,
-                    "score": score
-                })
-                position += 1
-
-        i += 1
-
-    return result
 
 
 # ====== ОСНОВНАЯ ФУНКЦИЯ ======
@@ -168,7 +110,7 @@ def parse_siege_screenshot(image_path):
     print(f"🔄 Обработка изображения: {image_path}")
 
     print("📡 Использую OCR.Space API...")
-    ocr_text = ocr_local(image_path)
+    ocr_text = ocr_space_api(image_path)
 
     # Проверяем на ошибки
     if "Ошибка" in ocr_text or ocr_text.startswith("Таймаут"):
@@ -182,70 +124,6 @@ def parse_siege_screenshot(image_path):
     parsed_data["raw_ocr"] = ocr_text[:500] + "..." if len(ocr_text) > 500 else ocr_text
 
     return parsed_data
-
-
-# ====== ИНТЕГРАЦИЯ С TELEGRAM БОТОМ ======
-def setup_telebot_integration(bot_instance, save_folder="telegram_photos"):
-    """
-    Настройка обработчиков для Telegram бота
-    """
-
-    @bot_instance.message_handler(commands=['parse_last'])
-    def parse_last_screenshot(message):
-        """Парсит последнее сохраненное фото"""
-        try:
-            if not os.path.exists(save_folder):
-                bot_instance.reply_to(message, "❌ Папка с фото не существует")
-                return
-
-            files = os.listdir(save_folder)
-            image_files = [f for f in files if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
-
-            if not image_files:
-                bot_instance.reply_to(message, "❌ Нет сохраненных фото для парсинга")
-                return
-
-            # Сортируем по времени изменения
-            image_files.sort(key=lambda x: os.path.getmtime(os.path.join(save_folder, x)), reverse=True)
-            latest_file = image_files[0]
-            filepath = os.path.join(save_folder, latest_file)
-
-            bot_instance.reply_to(message, f"🔄 Парсинг {latest_file}...")
-
-            # Пробуем API сначала, потом локальный
-            result = parse_siege_screenshot(filepath, method='api')
-
-            if "error" in result:
-                bot_instance.reply_to(message, f"API не сработал, пробую локальный OCR...")
-                result = parse_siege_screenshot(filepath, method='local')
-
-            if "error" in result:
-                bot_instance.reply_to(message, f"❌ Ошибка: {result['error']}")
-                return
-
-            # Формируем красивый ответ
-            response = "🎮 *РЕЗУЛЬТАТЫ ОСАДЫ*\n\n"
-            response += f"*Событие:* {result.get('event', 'Осада')}\n"
-            response += f"*Неделя:* {result.get('week', 'Текущая')}\n"
-            response += f"*Всего игроков:* {result.get('total_players', '?')}\n\n"
-            response += "*ТОП ИГРОКИ:*\n"
-
-            for player in result.get("players", [])[:5]:
-                score_formatted = f"{int(player['score']):,}".replace(",", ".")
-                response += f"{player['position']}. {player['name']}\n   🏆 `{score_formatted}`\n"
-
-            if len(result.get("players", [])) > 5:
-                response += f"\n... и еще {len(result['players']) - 5} игроков"
-
-            bot_instance.reply_to(message, response, parse_mode='Markdown')
-
-            # Сохраняем в JSON файл
-            json_path = filepath.replace('.jpg', '.json').replace('.png', '.json')
-            with open(json_path, 'w', encoding='utf-8') as f:
-                json.dump(result, f, ensure_ascii=False, indent=2)
-
-        except Exception as e:
-            bot_instance.reply_to(message, f"❌ Критическая ошибка: {str(e)}")
 
 
 if __name__ == "__main__":

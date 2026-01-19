@@ -3,3 +3,5 @@ requests
 tabulate
 pillow
 pytesseract
+opencv-python
+numpy
