@@ -1,0 +1,43 @@
+{
+  "event": "Осада — Ледяная пустошь",
+  "week": "Текущая неделя",
+  "total_players": "2164",
+  "players": [
+    {
+      "position": 1,
+      "name": "sten [dlk] ",
+      "score": "12341576739"
+    },
+    {
+      "position": 2,
+      "name": "Pastrana [GyM] ",
+      "score": "9126674360"
+    },
+    {
+      "position": 3,
+      "name": "Click o Cheepus [Obsch] ",
+      "score": "8638613887"
+    },
+    {
+      "position": 4,
+      "name": "Яг-морт [fdx] ",
+      "score": "7705916919"
+    },
+    {
+      "position": 5,
+      "name": "Бадун [DoP] ",
+      "score": "7691029649"
+    },
+    {
+      "position": 6,
+      "name": "Алексей(torn-zorg) [DoP] ",
+      "score": "5819049826"
+    },
+    {
+      "position": 7,
+      "name": "бублик [Steel] ",
+      "score": "5366377575"
+    }
+  ],
+  "raw_ocr": "220ar\nОсада — Ледяная пустошь\nТекущая неделя\nИгроки\nКланы\nВсего: 2164\nsten [dlk]\n12341576739\n2\nPastrana [GyM]\n9126674360\n3\nClick o Cheepus [Obsch]\n8638613887\n4\nЯг-морт [fdx]\n7705916919\n5\nБадун [DoP]\n7691029649\n6\nАлексей(torn-zorg) [DoP]\n5819049826\n7\nбублик [Steel]\n5366377575\n1704 4 07017\nНазад\nОсады"
+}
