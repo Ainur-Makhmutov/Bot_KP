@@ -1,18 +1,14 @@
 import requests
+import pytesseract
 from PIL import Image
 import os
 import json
 import re
 
-
 # ====== OCR ФУНКЦИИ ======
+# OCR.Space API
+def ocr_space_api(image_path, api_key='K88266104688957'):
 
-# Вариант 1: OCR.Space API (самый простой, бесплатный)
-def ocr_space_api(image_path, api_key='helloworld'):
-    """
-    Бесплатный OCR API от ocr.space
-    500 запросов в день бесплатно
-    """
     try:
         with open(image_path, 'rb') as image_file:
             url = "https://api.ocr.space/parse/image"
@@ -41,37 +37,27 @@ def ocr_space_api(image_path, api_key='helloworld'):
         return f"Ошибка запроса: {str(e)}"
 
 
-
-# Вариант 3: SimpleOCR API (альтернативный бесплатный)
-def ocr_simple_api(image_path):
+# Локальный Tesseract
+def ocr_local(image_path):
     """
-    Альтернативный бесплатный OCR через RapidAPI
-    Требует бесплатной регистрации на RapidAPI
+    Локальный OCR с помощью Tesseract
+    Установите:
+    1. pip install pytesseract pillow
+    2. Установите Tesseract OCR: https://github.com/UB-Mannheim/tesseract/wiki
     """
     try:
-        with open(image_path, 'rb') as image_file:
-            url = "https://simpleocr.p.rapidapi.com/ocr"
+        # Открываем изображение
+        image = Image.open(image_path)
 
-            headers = {
-                'X-RapidAPI-Key': 'your_rapidapi_key',  # Зарегистрируйтесь на rapidapi.com
-                'X-RapidAPI-Host': 'simpleocr.p.rapidapi.com'
-            }
+        # Извлекаем текст
+        text = pytesseract.image_to_string(image, lang='rus+eng')
 
-            files = {'image': image_file}
-            data = {'lang': 'ru'}
-
-            response = requests.post(url, headers=headers, files=files, data=data)
-
-            if response.status_code == 200:
-                return response.text.strip()
-            else:
-                return f"Ошибка API: {response.status_code}"
+        return text.strip()
     except Exception as e:
-        return f"Ошибка запроса: {str(e)}"
+        return f"Ошибка OCR: {str(e)}"
 
 
 # ====== ПАРСЕР ДЛЯ СКРИНШОТОВ ОСАДЫ ======
-
 def parse_siege_ocr_text(ocr_text):
     """
     Парсит текст, полученный из OCR, в структурированный формат
@@ -123,7 +109,7 @@ def parse_siege_ocr_text(ocr_text):
 
     return result
 
-
+# Ручной парсинг для сложных случаев
 def manual_parse_fallback(lines):
     """
     Ручной парсинг для сложных случаев
@@ -173,24 +159,16 @@ def manual_parse_fallback(lines):
 
 
 # ====== ОСНОВНАЯ ФУНКЦИЯ ======
-
-def parse_siege_screenshot(image_path, method='api'):
+def parse_siege_screenshot(image_path):
     """
     Основная функция для парсинга скриншота осады
-
-    Параметры:
-    - image_path: путь к изображению
-    - method: 'api' (по умолчанию) или 'local'
     """
 
     # Шаг 1: Получаем текст через OCR
     print(f"🔄 Обработка изображения: {image_path}")
 
-    if method == 'api':
-        print("📡 Использую OCR.Space API...")
-        ocr_text = ocr_space_api(image_path)
-    else:
-        return {"error": "Неверный метод. Используйте 'api' или 'local'"}
+    print("📡 Использую OCR.Space API...")
+    ocr_text = ocr_local(image_path)
 
     # Проверяем на ошибки
     if "Ошибка" in ocr_text or ocr_text.startswith("Таймаут"):
@@ -207,7 +185,6 @@ def parse_siege_screenshot(image_path, method='api'):
 
 
 # ====== ИНТЕГРАЦИЯ С TELEGRAM БОТОМ ======
-
 def setup_telebot_integration(bot_instance, save_folder="telegram_photos"):
     """
     Настройка обработчиков для Telegram бота
@@ -271,46 +248,26 @@ def setup_telebot_integration(bot_instance, save_folder="telegram_photos"):
             bot_instance.reply_to(message, f"❌ Критическая ошибка: {str(e)}")
 
 
-# ====== ПРИМЕР ИСПОЛЬЗОВАНИЯ ======
-
 if __name__ == "__main__":
     # Демонстрация работы
     print("=" * 60)
     print("ПАРСЕР СКРИНШОТОВ ОСАДЫ")
     print("=" * 60)
 
-    # Пример файла (замените на путь к вашему скриншоту)
-    test_image = "telegram_photos/photo_1960868942_20260119_190015.jpg"
+    # путь к скриншоту
+    path_image = "telegram_photos/photo_1960868942_20260119_190015.jpg"
 
-    if os.path.exists(test_image):
-        # Пробуем API метод
+    if os.path.exists(path_image):
         print("\n1. Тестируем с API методом:")
-        result = parse_siege_screenshot(test_image, method='api')
+        result = parse_siege_screenshot(path_image)
 
         if "error" not in result:
-            print(f"✅ Успешно! Найдено {len(result.get('players', []))} игроков")
-            print(f"📊 Всего игроков: {result.get('total_players', 'N/A')}")
-
-            # Показываем топ-3
-            print("\n🏆 ТОП-3:")
-            for player in result.get("players", [])[:3]:
-                print(f"  {player['position']}. {player['name']} - {player['score']}")
-
             # Сохраняем результат
             with open("result.json", "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, indent=2)
             print("\n💾 Результат сохранен в result.json")
         else:
             print(f"❌ API метод не сработал: {result['error']}")
-
-            # Пробуем локальный метод
-            print("\n2. Тестируем с локальным методом:")
-            result = parse_siege_screenshot(test_image, method='local')
-
-            if "error" not in result:
-                print(f"✅ Локальный метод сработал! Найдено {len(result.get('players', []))} игроков")
-            else:
-                print(f"❌ Оба метода не сработали")
     else:
-        print(f"❌ Файл {test_image} не найден")
+        print(f"❌ Файл {path_image} не найден")
         print("Создайте скриншот или укажите правильный путь")
