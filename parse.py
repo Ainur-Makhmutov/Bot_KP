@@ -22,8 +22,8 @@ headers = {
     "x-client-platform": "webgl",
     "x-client-version": "1181",
     "x-device-token": "41f1f02c-7d55-4ec5-9103-84916b629dd6",
-    "x-request-cid": "43e9b8eb-0e08-4723-ab9e-fc2925660fb1",
-    "x-session-id": "4f3ae4eb-77a5-42a7-858a-23236c020f35",
+    "x-request-cid": "8df608a7-254d-4cbb-bfe7-ff6628958598",
+    "x-session-id": "50e8f536-182c-4f48-9a55-909b5c776ef2",
 
     # === ДОПОЛНИТЕЛЬНЫЕ ===
     "priority": "u=1, i",
