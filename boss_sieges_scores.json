@@ -7,8 +7,8 @@
   "description": "Минималки:\nНаука-арена-4кк.\nУровни -босс -100к (250к).\nОсада -20кк\n\nОтсутствие в игре более 2 недель - кик.\n\nПо всем вопросам писать \"бублик\"\n\nКлан в тг: DCSteel",
   "emblem": "2_1_2_20",
   "privacy": 1,
-  "science_points": 8442587294,
-  "influence_points": 2497972250,
+  "science_points": 8443691763,
+  "influence_points": 2498288000,
   "min_level": 1000,
   "created_at": "2019-08-10T10:38:41.431Z",
   "realm_id": 1,
@@ -110,7 +110,7 @@
       "newbie": false,
       "influence": 55957750,
       "science": 613747878,
-      "last_seen_at": "2026-01-19T08:16:39.408Z",
+      "last_seen_at": "2026-01-19T13:47:45.515Z",
       "role": 0,
       "scores": {
         "current": {
@@ -162,13 +162,13 @@
       "avatar_url": "rsl://2ea64dd4-ea78-433e-9876-a436118e3021",
       "clan_role": 1,
       "newbie": false,
-      "influence": 192527000,
-      "science": 480431687,
-      "last_seen_at": "2026-01-19T11:26:40.783Z",
+      "influence": 192691500,
+      "science": 481039187,
+      "last_seen_at": "2026-01-19T13:40:48.534Z",
       "role": 0,
       "scores": {
         "current": {
-          "rating": 10054850,
+          "rating": 12448050,
           "boss_siege": 70107287,
           "autochess": null,
           "royal_hunt": null,
@@ -190,12 +190,12 @@
       "clan_role": 5,
       "newbie": false,
       "influence": 164701500,
-      "science": 365027945,
-      "last_seen_at": "2026-01-18T18:29:19.909Z",
+      "science": 365754411,
+      "last_seen_at": "2026-01-19T12:50:50.318Z",
       "role": 0,
       "scores": {
         "current": {
-          "rating": null,
+          "rating": 1416609,
           "boss_siege": null,
           "autochess": null,
           "royal_hunt": null,
@@ -299,12 +299,12 @@
       "newbie": false,
       "influence": 16799000,
       "science": 9753699,
-      "last_seen_at": "2026-01-19T09:29:33.011Z",
+      "last_seen_at": "2026-01-19T13:21:59.253Z",
       "role": 0,
       "scores": {
         "current": {
           "rating": 473934,
-          "boss_siege": 1600804,
+          "boss_siege": 1606897,
           "autochess": 675,
           "royal_hunt": null,
           "labyrinth": null
@@ -380,7 +380,7 @@
       "newbie": false,
       "influence": 31428000,
       "science": 126393464,
-      "last_seen_at": "2026-01-19T07:01:28.584Z",
+      "last_seen_at": "2026-01-19T13:08:21.215Z",
       "role": 0,
       "scores": {
         "current": {
@@ -434,7 +434,7 @@
       "newbie": false,
       "influence": 128351500,
       "science": 57150463,
-      "last_seen_at": "2026-01-19T11:09:48.053Z",
+      "last_seen_at": "2026-01-19T11:53:34.705Z",
       "role": 0,
       "scores": {
         "current": {
@@ -569,7 +569,7 @@
       "newbie": false,
       "influence": 1786250,
       "science": 3890006,
-      "last_seen_at": "2026-01-19T08:31:35.376Z",
+      "last_seen_at": "2026-01-19T12:17:24.971Z",
       "role": 0,
       "scores": {
         "current": {
@@ -837,14 +837,14 @@
       "avatar_url": "icon_7",
       "clan_role": 5,
       "newbie": false,
-      "influence": 10084250,
-      "science": 17743797,
-      "last_seen_at": "2026-01-19T06:29:43.878Z",
+      "influence": 10235500,
+      "science": 18066535,
+      "last_seen_at": "2026-01-19T13:55:55.566Z",
       "role": 0,
       "scores": {
         "current": {
-          "rating": null,
-          "boss_siege": 37502108,
+          "rating": 663583,
+          "boss_siege": 98127108,
           "autochess": null,
           "royal_hunt": null,
           "labyrinth": null
@@ -947,7 +947,7 @@
       "newbie": false,
       "influence": 1527750,
       "science": 1919839,
-      "last_seen_at": "2026-01-19T10:56:58.661Z",
+      "last_seen_at": "2026-01-19T12:01:36.329Z",
       "role": 0,
       "scores": {
         "current": {
