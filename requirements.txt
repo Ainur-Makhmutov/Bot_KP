@@ -5,3 +5,4 @@ pillow
 pytesseract
 opencv-python
 numpy
+beautifulsoup4
