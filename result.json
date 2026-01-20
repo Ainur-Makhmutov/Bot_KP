@@ -1,7 +1,56 @@
 {
-  "event": "Осада — Ледяная пустошь",
+  "event_name": "Камень и сталь",
   "week": "Текущая неделя",
-  "total_players": "2164",
-  "players": [],
-  "raw_ocr": "220ar\nОсада — Ледяная пустошь\nТекущая неделя\nИгроки\nКланы\nВсего: 2164\nsten [dlk]\n12341576739\n2\nPastrana [GyM]\n9126674360\n3\nClick o Cheepus [Obsch]\n8638613887\n4\nЯг-морт [fdx]\n7705916919\n5\nБадун [DoP]\n7691029649\n6\nАлексей(torn-zorg) [DoP]\n5819049826\n7\nбублик [Steel]\n5366377575\n1704 4 07017\nНазад\nОсады"
+  "total_players": 254,
+  "clans": [
+    {
+      "position": 72,
+      "name": "Divine Alliance 2",
+      "tag": "DAII",
+      "points": 16956000
+    },
+    {
+      "position": 73,
+      "name": "wawllon",
+      "tag": "Regen",
+      "points": 16332000
+    },
+    {
+      "position": 74,
+      "name": "Sun and Moon",
+      "tag": "Moons",
+      "points": 14678000
+    },
+    {
+      "position": 75,
+      "name": "Chłopaki z Baraków",
+      "tag": "CzB",
+      "points": 14662000
+    },
+    {
+      "position": 76,
+      "name": "Братство стали",
+      "tag": "Steel",
+      "points": 14512000
+    },
+    {
+      "position": 77,
+      "name": "FarmVG",
+      "tag": "FVG",
+      "points": 14419000
+    },
+    {
+      "position": 78,
+      "name": "boss",
+      "tag": "zazz",
+      "points": 14322000
+    },
+    {
+      "position": 79,
+      "name": "BerserkerS",
+      "tag": "BerS",
+      "points": 14144000
+    }
+  ],
+  "raw_ocr": "055\nСобытие — Камень и сталь\nТекущая неделя\nИгроки\nКланы\nВсего: 254\n72\nDivine Alliance 2 [DAII]\n16,956K\n73\nwawllon [Regen]\n16,332K\n74\nSun and Moon [Moons]\n14,678K\n75\n®\nChłopaki z Baraków\n[CzB]\n14,662K\n76\nБратство стали [Steel]\n14,512K\n77\nFarmVG [FVG]\n14,419K\n78\n®\nboss [zazz]\n14,322K\n79\nBerserkerS [BerS]\n14,144K\nПравила\nНазад"
 }

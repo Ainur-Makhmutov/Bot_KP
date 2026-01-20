@@ -1,5 +1,4 @@
 import requests
-from PIL import Image
 import os
 import json
 import re
@@ -7,29 +6,25 @@ import socks
 import socket
 
 
-socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
+socks.set_default_proxy(socks.SOCKS5, "localhost", 9150) # Порт тора
 socket.socket = socks.socksocket
 
-# ====== OCR ФУНКЦИИ ======
-# OCR.Space API
+# ====== OCR.Space API ======
 def ocr_space_api(image_path):
 
     try:
         with open(image_path, 'rb') as image_file:
+
             url = "https://api.ocr.space/parse/image"
             api_key = 'K88266104688957'
-            # Проверка размера
+
+            # Проверка размера. Надо будет проверку в тг
             file_size = os.path.getsize(image_path)
             if file_size > 1024 * 1024:
                 return f"Файл слишком большой: {file_size / 1024 / 1024:.2f} МБ"
 
-            # Добавляем заголовки
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
-
             payload = {
-                'apikey': api_key,  # Бесплатный демо-ключ
+                'apikey': api_key,  # ключ
                 'language': 'rus',  # Русский язык
                 'isOverlayRequired': False,
                 'OCREngine': 2,  # Более точный движок
@@ -39,7 +34,7 @@ def ocr_space_api(image_path):
 
             files = {'image': ('filename.jpg', image_file, 'image/jpeg')}
 
-            response = requests.post(url, files=files, data=payload, headers=headers, timeout=30)
+            response = requests.post(url, files=files, data=payload, timeout=30)
             result = response.json()
 
             if result.get('ParsedResults'):
@@ -54,11 +49,15 @@ def ocr_space_api(image_path):
         return f"Ошибка запроса: {str(e)}"
 
 
-# ====== ПАРСЕР ДЛЯ СКРИНШОТОВ ОСАДЫ ======
+# ====== Парсит текст, полученный из OCR, в структурированный формат ======
 def parse_siege_ocr_text(ocr_text):
-    """
-    Парсит текст, полученный из OCR, в структурированный формат
-    """
+
+    result = {
+        "event": "Осада — Ледяная пустошь",
+        "week": "Текущая неделя",
+        "total_players": "2164",
+        "players": []
+    }
 
     lines = ocr_text.split('\n')
     lines = [line.strip() for line in lines if line.strip()]
@@ -125,7 +124,6 @@ def parse_siege_screenshot(image_path):
 
 
 if __name__ == "__main__":
-    # Демонстрация работы
     print("=" * 60)
     print("ПАРСЕР СКРИНШОТОВ ОСАДЫ")
     print("=" * 60)
