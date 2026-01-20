@@ -110,7 +110,7 @@ def send_html_table(message):
     bot.send_message(message.chat.id, html, parse_mode='HTML')
 
 
-@bot.message_handler(commands=['4'])
+@bot.message_handler(commands=['4']) # это!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def show_products(message):
     # Пример данных (обычно берут из БД)
     products = [
