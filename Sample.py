@@ -1,10 +1,14 @@
 import requests
-import pytesseract
 from PIL import Image
 import os
 import json
 import re
+import socks
+import socket
 
+
+socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)
+socket.socket = socks.socksocket
 
 # ====== OCR ФУНКЦИИ ======
 # OCR.Space API
@@ -55,12 +59,6 @@ def parse_siege_ocr_text(ocr_text):
     """
     Парсит текст, полученный из OCR, в структурированный формат
     """
-    result = {
-        "event": "Осада — Ледяная пустошь",
-        "week": "Текущая неделя",
-        "total_players": "2164",
-        "players": []
-    }
 
     lines = ocr_text.split('\n')
     lines = [line.strip() for line in lines if line.strip()]
@@ -136,7 +134,6 @@ if __name__ == "__main__":
     path_image = "telegram_photos/photo_1960868942_20260119_190015.jpg"
 
     if os.path.exists(path_image):
-        print("\n1. Тестируем с API методом:")
         result = parse_siege_screenshot(path_image)
 
         if "error" not in result:
