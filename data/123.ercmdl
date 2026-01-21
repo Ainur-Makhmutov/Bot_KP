@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-16"?>
+<diagram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="b34f21a56d93017fed3ec456099b53a82" notation="Idef1x" comment="">
+  <logical name="" />
+  <physical />
+  <domains>
+    <domain id="ce18e5ea98fd1dd314a46bf1a75cd9324" baseDomain="true" category="" parentDomain="">
+      <logical name="&lt;&lt;default&gt;&gt;" datatype="BINARY" datatypeParam1="0" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalDomain xsi:type="PhysicalAccessDomain" name="&lt;&lt;default&gt;&gt;" datatype="BINARY" datatypeParam1="0" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+        </item>
+      </physical>
+    </domain>
+    <domain id="5e8edea9527000c1ea946a75cd91dd2e4" baseDomain="true" category="Blob" parentDomain="ce18e5ea98fd1dd314a46bf1a75cd9324">
+      <logical name="&lt;Blob&gt;" datatype="BINARY()" datatypeParam1="255" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalDomain xsi:type="PhysicalAccessDomain" name="&lt;Blob&gt;" datatype="BINARY()" datatypeParam1="255" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+        </item>
+      </physical>
+    </domain>
+    <domain id="ca162f0d326ab16410d8ce62d23301261" baseDomain="true" category="Datetime" parentDomain="ce18e5ea98fd1dd314a46bf1a75cd9324">
+      <logical name="&lt;Datetime&gt;" datatype="DATETIME" datatypeParam1="0" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalDomain xsi:type="PhysicalAccessDomain" name="&lt;Datetime&gt;" datatype="DATETIME" datatypeParam1="0" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+        </item>
+      </physical>
+    </domain>
+    <domain id="e02aaff7aeae574841c38f4758ad0f3ad" baseDomain="true" category="Number" parentDomain="ce18e5ea98fd1dd314a46bf1a75cd9324">
+      <logical name="&lt;Number&gt;" datatype="INTEGER" datatypeParam1="0" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalDomain xsi:type="PhysicalAccessDomain" name="&lt;Number&gt;" datatype="INTEGER" datatypeParam1="0" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+        </item>
+      </physical>
+    </domain>
+    <domain id="33146380062e69ca9f5e56e4f8fbdc200" baseDomain="true" category="String" parentDomain="ce18e5ea98fd1dd314a46bf1a75cd9324">
+      <logical name="&lt;String&gt;" datatype="CHAR" datatypeParam1="40" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalDomain xsi:type="PhysicalAccessDomain" name="&lt;String&gt;" datatype="CHARACTER()" datatypeParam1="40" datatypeParam2="0" defaultValue="" hasDefaultValue="false" constarintConditions="" />
+        </item>
+      </physical>
+    </domain>
+  </domains>
+  <entities>
+    <entity id="809ea083edd93341b3aa98c183893561c" comment="">
+      <logical name="Недели" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalEntity xsi:type="PhysicalAccessEntity" name="Недели" />
+        </item>
+      </physical>
+      <attributes>
+        <attribute id="c57097b364464506fb9784fbffe0f44ae" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="true" isForeign="false" notNull="false" comment="">
+          <logical name="ID недели" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="ID недели" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="3" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="cdcce69a813a9829517b194b7e76be0f1" domain="ca162f0d326ab16410d8ce62d23301261" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Дата начала" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Дата начала" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="26" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="12e12bad47c5c83b43744228040e2e914" domain="ca162f0d326ab16410d8ce62d23301261" isPrimary="false" isForeign="false" notNull="false" comment="">
+          <logical name="Дата конца" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Дата конца" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="43" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="9753726ddc286a53b6b8bcef60dabb5db" domain="33146380062e69ca9f5e56e4f8fbdc200" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Название осады" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Название осады" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="60" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="1e6fb0d4ff5a893ad4a124503fd5167be" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Значение осады" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Значение осады" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="77" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="130d7d0076500a9aa67e88c96d74b1274" domain="33146380062e69ca9f5e56e4f8fbdc200" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Название события" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Название события" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="94" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="b01cb381afd2402d758d8ed96bb38288a" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Значение события" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Значение события" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="111" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+      </attributes>
+      <geometry>
+        <position x="408" y="32" />
+        <font name="Tahoma" size="10" bold="true" italic="false" underline="false" />
+        <foreColor a="255" r="0" g="0" b="128" isEmpty="false" />
+        <backColor a="255" r="207" g="207" b="231" isEmpty="false" />
+        <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+      </geometry>
+    </entity>
+    <entity id="c465639a7359f554f04de3977796c564e" comment="">
+      <logical name="Топ 20 события" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalEntity xsi:type="PhysicalAccessEntity" name="Топ 20 события" />
+        </item>
+      </physical>
+      <attributes>
+        <attribute id="54362e14dab67e6e8e298c6e72e167445" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="true" isForeign="false" notNull="true" comment="">
+          <logical name="ID" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="ID" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="3" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="e39c4f449c895bde32c1f7258b5d3f543" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="true" notNull="false" comment="">
+          <logical name="ID недели" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="ID недели" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="26" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="32a2e640e183209160ffe60cff8f98b33" domain="33146380062e69ca9f5e56e4f8fbdc200" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Имя" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Имя" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="43" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="b44447209531878f15555e359bdb8c048" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Значение" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Значение" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="60" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+      </attributes>
+      <geometry>
+        <position x="624" y="32" />
+        <font name="Tahoma" size="10" bold="true" italic="false" underline="false" />
+        <foreColor a="255" r="0" g="0" b="128" isEmpty="false" />
+        <backColor a="255" r="207" g="207" b="231" isEmpty="false" />
+        <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+      </geometry>
+    </entity>
+    <entity id="a6226f9c8ee866086d620ac0fa8a77c5e" comment="">
+      <logical name="Топ 20 осады" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalEntity xsi:type="PhysicalAccessEntity" name="Топ 20 осады" />
+        </item>
+      </physical>
+      <attributes>
+        <attribute id="a24cd08c8b02f5f4420b4edea9ef42b50" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="true" isForeign="false" notNull="true" comment="">
+          <logical name="ID" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="ID" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="3" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="116c1c507549231d5e574ad257b1b2dae" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="true" notNull="false" comment="">
+          <logical name="ID недели" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="ID недели" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="26" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="995c382dccba62239ffb06b75d8140cae" domain="33146380062e69ca9f5e56e4f8fbdc200" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Имя" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Имя" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="43" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="0ffb5fcbffc657133caaef3de75f08cf1" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Значение" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Значение" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="60" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+      </attributes>
+      <geometry>
+        <position x="840" y="32" />
+        <font name="Tahoma" size="10" bold="true" italic="false" underline="false" />
+        <foreColor a="255" r="0" g="0" b="128" isEmpty="false" />
+        <backColor a="255" r="207" g="207" b="231" isEmpty="false" />
+        <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+      </geometry>
+    </entity>
+    <entity id="f0226bbb967b1c802f220a50237070b46" comment="">
+      <logical name="Статистика клана" />
+      <physical>
+        <item>
+          <string>Access</string>
+          <GenericPhysicalEntity xsi:type="PhysicalAccessEntity" name="Статистика клана" />
+        </item>
+      </physical>
+      <attributes>
+        <attribute id="ba598de83ed910bf85e43987f7c7921e7" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="true" isForeign="false" notNull="true" comment="">
+          <logical name="ID" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="ID" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="3" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="46a962e2aa01a029e8c8efc0de7d6029e" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="true" notNull="false" comment="">
+          <logical name="ID недели" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="ID недели" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="26" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="99cd545fc540712168777efd280f4fe46" domain="33146380062e69ca9f5e56e4f8fbdc200" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Имя" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Имя" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="43" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="5434077838d2b671b47412f702e343690" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Значение на момент (Событие)" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Значение на момент (Событие)" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="60" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="22e750c0d9250f34a48a3a35b3d834014" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Фактическое значение (Событие)" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Фактическое значение (Событие)" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="77" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="cd487843c525ee7e0796c8b9ebc45bd60" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Значение на момент (Осада)" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Значение на момент (Осада)" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="94" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+        <attribute id="9b3e8f034b8d83a91485da32b9bcfd18b" domain="e02aaff7aeae574841c38f4758ad0f3ad" isPrimary="false" isForeign="false" notNull="true" comment="">
+          <logical name="Фактическое значение (Осада)" />
+          <physical>
+            <item>
+              <string>Access</string>
+              <GenericPhysicalAttribute xsi:type="PhysicalAccessAttribute" name="Фактическое значение (Осада)" />
+            </item>
+          </physical>
+          <geometry>
+            <position x="3" y="111" />
+            <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+            <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+            <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+            <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+          </geometry>
+        </attribute>
+      </attributes>
+      <geometry>
+        <position x="664" y="184" />
+        <font name="Tahoma" size="10" bold="true" italic="false" underline="false" />
+        <foreColor a="255" r="0" g="0" b="128" isEmpty="false" />
+        <backColor a="255" r="207" g="207" b="231" isEmpty="false" />
+        <fontColor a="255" r="0" g="0" b="128" isEmpty="false" />
+      </geometry>
+    </entity>
+  </entities>
+  <relationships>
+    <relationship id="aa22bf44e59919ecf90bc849662148166" verbPhraseParentToChild="" verbPhraseChildToParent="" parentEntity="809ea083edd93341b3aa98c183893561c" childEntity="c465639a7359f554f04de3977796c564e" cardinality="OneToOneMore" cardinalityValue="2" isIdentifying="false" allowNulls="false" comment="">
+      <logical name="" />
+      <physical />
+      <pkFkList>
+        <pkFk>
+          <IDPKParentEntity>c57097b364464506fb9784fbffe0f44ae</IDPKParentEntity>
+          <IDFKChildEntity>e39c4f449c895bde32c1f7258b5d3f543</IDFKChildEntity>
+        </pkFk>
+      </pkFkList>
+      <riActions />
+      <geometry>
+        <position x="0" y="0" />
+        <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+        <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+        <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+        <fontColor a="255" r="0" g="0" b="0" isEmpty="false" />
+        <nodes>
+          <nodes x="496" y="96" />
+          <nodes x="496" y="136" />
+          <nodes x="599" y="136" />
+          <nodes x="704" y="136" />
+          <nodes x="704" y="112" />
+          <nodes x="704" y="72" />
+        </nodes>
+      </geometry>
+    </relationship>
+    <relationship id="5a1c7d3ee99b55e9d34d087c4cb7b0fb9" verbPhraseParentToChild="" verbPhraseChildToParent="" parentEntity="809ea083edd93341b3aa98c183893561c" childEntity="a6226f9c8ee866086d620ac0fa8a77c5e" cardinality="OneToOneMore" cardinalityValue="2" isIdentifying="false" allowNulls="false" comment="">
+      <logical name="" />
+      <physical />
+      <pkFkList>
+        <pkFk>
+          <IDPKParentEntity>c57097b364464506fb9784fbffe0f44ae</IDPKParentEntity>
+          <IDFKChildEntity>116c1c507549231d5e574ad257b1b2dae</IDFKChildEntity>
+        </pkFk>
+      </pkFkList>
+      <riActions />
+      <geometry>
+        <position x="0" y="0" />
+        <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+        <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+        <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+        <fontColor a="255" r="0" g="0" b="0" isEmpty="false" />
+        <nodes>
+          <nodes x="496" y="96" />
+          <nodes x="496" y="152" />
+          <nodes x="599" y="152" />
+          <nodes x="920" y="152" />
+          <nodes x="920" y="112" />
+          <nodes x="920" y="72" />
+        </nodes>
+      </geometry>
+    </relationship>
+    <relationship id="f917321416bf4b90f262b3839b5b3edd9" verbPhraseParentToChild="" verbPhraseChildToParent="" parentEntity="809ea083edd93341b3aa98c183893561c" childEntity="f0226bbb967b1c802f220a50237070b46" cardinality="OneToOneMore" cardinalityValue="2" isIdentifying="false" allowNulls="false" comment="">
+      <logical name="" />
+      <physical />
+      <pkFkList>
+        <pkFk>
+          <IDPKParentEntity>c57097b364464506fb9784fbffe0f44ae</IDPKParentEntity>
+          <IDFKChildEntity>46a962e2aa01a029e8c8efc0de7d6029e</IDFKChildEntity>
+        </pkFk>
+      </pkFkList>
+      <riActions />
+      <geometry>
+        <position x="0" y="0" />
+        <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+        <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+        <backColor a="0" r="0" g="0" b="0" isEmpty="true" />
+        <fontColor a="255" r="0" g="0" b="0" isEmpty="false" />
+        <nodes>
+          <nodes x="496" y="96" />
+          <nodes x="504" y="96" />
+          <nodes x="504" y="163" />
+          <nodes x="504" y="248" />
+          <nodes x="664" y="248" />
+          <nodes x="800" y="248" />
+        </nodes>
+      </geometry>
+    </relationship>
+  </relationships>
+  <discriminators />
+  <geometry>
+    <position x="0" y="0" />
+    <font name="Tahoma" size="10" bold="false" italic="false" underline="false" />
+    <foreColor a="255" r="0" g="0" b="0" isEmpty="false" />
+    <backColor a="255" r="255" g="255" b="255" isEmpty="false" />
+    <fontColor a="255" r="0" g="0" b="0" isEmpty="false" />
+    <size x="1137" y="790" />
+  </geometry>
+</diagram>
