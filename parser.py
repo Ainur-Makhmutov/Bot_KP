@@ -9,6 +9,7 @@ import socket
 socks.set_default_proxy(socks.SOCKS5, "localhost", 9150) # Порт тора
 socket.socket = socks.socksocket
 
+
 # ====== OCR.Space API ======
 def ocr_space_api(image_path):
 
