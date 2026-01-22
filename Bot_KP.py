@@ -67,8 +67,8 @@ def handle_callback(call):
         user_data[user_id] = {
             'photos': [],
             'current_message_id': call.message.message_id,
-            'last_photo_time': 0,
-            'photo_batch_count': 0
+            'awaiting_photos': True,  # Флаг ожидания фото
+            'last_photo_time': time.time()
         }
 
         # Создаем клавиатуру для сохранения или отмены
@@ -82,9 +82,18 @@ def handle_callback(call):
         bot.edit_message_text(
             chat_id=call.message.chat.id,
             message_id=call.message.message_id,
-            text="Присылайте скриншоты. После отправки всех фото нажмите 'Сохранить'.\n\n"
+            text="📸 Теперь присылайте фото скриншотов.\n\n"
+                 "Можете отправлять по одному или несколько фото сразу (альбомом).\n"
+                 "После отправки всех фото нажмите 'Сохранить'.\n\n"
                  "Отправлено фото: 0",
             reply_markup=save_markup
+        )
+
+        # Отправляем отдельное сообщение с инструкцией
+        bot.send_message(
+            call.message.chat.id,
+            "📸 Отправляйте фото скриншотов одним или несколькими сообщениями. "
+            "Когда закончите, нажмите кнопку 'Сохранить' в предыдущем сообщении."
         )
 
     elif call.data == "top20_statistics":
@@ -162,17 +171,17 @@ def handle_callback(call):
             reply_markup=create_inline_keyboard()
         )
 
+
     elif call.data == "save_photos":
 
         if user_id in user_data and user_data[user_id]['photos']:
-
             photos_count = len(user_data[user_id]['photos'])
 
-            # Очищаем таймеры если есть
+            # Получаем все фото
 
-            user_data[user_id].pop('confirm_timer', None)
+            all_photos = user_data[user_id]['photos']
 
-            user_data[user_id].pop('pending_photos', None)
+            # Отправляем подтверждение
 
             bot.edit_message_text(
 
@@ -180,21 +189,33 @@ def handle_callback(call):
 
                 message_id=call.message.message_id,
 
-                text=f"✅ Сохранено {photos_count} фото за текущую неделю!"
+                text=f"✅ Сохранено {photos_count} фото за текущую неделю!\n"
+
+                     f"Файлы сохранены в папке: {SAVE_FOLDER}/{user_id}/"
 
             )
 
+            # Очищаем данные пользователя
+
             del user_data[user_id]
+
+            # Возвращаем в главное меню
+
+            bot.send_message(
+
+                call.message.chat.id,
+
+                "Что еще хотите сделать?",
+
+                reply_markup=create_inline_keyboard()
+
+            )
 
 
     elif call.data == "cancel_photos":
 
         if user_id in user_data:
-            # Очищаем таймеры если есть
-
-            user_data[user_id].pop('confirm_timer', None)
-
-            user_data[user_id].pop('pending_photos', None)
+            # Очищаем данные пользователя
 
             del user_data[user_id]
 
@@ -224,70 +245,106 @@ def handle_callback(call):
 
             )
 
+            bot.edit_message_text(
+
+                chat_id=call.message.chat.id,
+
+                message_id=call.message.message_id,
+
+                text="Загрузка фото отменена. Выберите за какой период хотите прислать скриншоты:",
+
+                reply_markup=sendChoice_markup
+
+            )
+
     # Убираем часики "часики" (индикатор загрузки) с кнопки
     bot.answer_callback_query(call.id)
 
 
-# Обработчик для фото
+# Обработчик для получения фотографий от пользователя
 @bot.message_handler(content_types=['photo'])
 def handle_photos(message):
     user_id = message.from_user.id
 
-    if user_id in user_data:
-        photo_id = message.photo[-1].file_id
-        user_data[user_id]['photos'].append(photo_id)
+    # Проверяем, ожидаем ли мы фото от этого пользователя
+    if user_id in user_data and user_data[user_id].get('awaiting_photos'):
 
-        # Используем media_group_id для определения альбомов
-        media_group_id = message.media_group_id
+        # Создаем папку для пользователя если её нет
+        user_folder = os.path.join(SAVE_FOLDER, str(user_id))
+        if not os.path.exists(user_folder):
+            os.makedirs(user_folder)
 
-        if media_group_id:
-            # Если это альбом, проверяем, первое ли это фото в группе
-            if media_group_id != user_data[user_id].get('last_media_group'):
-                # Это первое фото в альбоме
-                user_data[user_id]['last_media_group'] = media_group_id
-                user_data[user_id]['album_photo_count'] = 1
+        # Сохраняем фото
+        photo_info = []
+        if message.photo:
+            # Если несколько фото в одном сообщении (альбом)
+            if hasattr(message, 'media_group_id') and message.media_group_id:
+                # Это альбом фото
+                for photo in message.photo:
+                    photo_id = message.photo[-1].file_id
+                    user_data[user_id]['photos'].append(photo_id)
+                    file_info = bot.get_file(photo.file_id)
+                    downloaded_file = bot.download_file(file_info.file_path)
+
+                    # Генерируем уникальное имя файла
+                    timestamp = int(time.time())
+                    filename = f"photo_{timestamp}_{len(photo_info)}.jpg"
+                    file_path = os.path.join(user_folder, filename)
+
+                    # Сохраняем файл
+                    with open(file_path, 'wb') as new_file:
+                        new_file.write(downloaded_file)
+
+                    photo_info.append({
+                        'file_path': file_path,
+                        'file_id': message.photo[-1].file_id
+                    })
             else:
-                # Продолжение альбома
-                user_data[user_id]['album_photo_count'] += 1
-                # Не отправляем сообщение для каждого фото в альбоме
-                return
-        else:
-            # Одиночное фото
-            user_data[user_id].pop('last_media_group', None)
-            user_data[user_id].pop('album_photo_count', None)
+                # Одно фото
+                file_info = bot.get_file(message.photo[-1].file_id)
+                downloaded_file = bot.download_file(file_info.file_path)
 
-        # Обновляем счетчик
-        count = len(user_data[user_id]['photos'])
+                # Генерируем уникальное имя файла
+                timestamp = int(time.time())
+                filename = f"photo_{timestamp}.jpg"
+                file_path = os.path.join(user_folder, filename)
+
+                # Сохраняем файл
+                with open(file_path, 'wb') as new_file:
+                    new_file.write(downloaded_file)
+
+                photo_info.append({
+                    'file_path': file_path,
+                    'file_id': message.photo[-1].file_id
+                })
+
+        # Сохраняем информацию о фото в user_data
+        if 'photos' not in user_data[user_id]:
+            user_data[user_id]['photos'] = []
+
+        user_data[user_id]['photos'].extend(photo_info)
+
+        # Обновляем сообщение с количеством отправленных фото
+        photos_count = len(user_data[user_id]['photos'])
+
+        # Создаем клавиатуру для сохранения или отмены
         save_markup = InlineKeyboardMarkup(row_width=2)
         save_markup.add(
             InlineKeyboardButton("Сохранить", callback_data="save_photos"),
             InlineKeyboardButton("Отмена", callback_data="cancel_photos")
         )
 
+        # Обновляем сообщение
         bot.edit_message_text(
             chat_id=message.chat.id,
-            message_id=user_data[user_id]['current_message_id'],
-            text=f"Присылайте скриншоты. После отправки всех фото нажмите 'Сохранить'.\n\n"
-                 f"Отправлено фото: {count}",
+            message_id=user_data[user_id].get('current_message_id'),
+            text=f"✅ Фото получены!\n\nПрисылайте скриншоты. После отправки всех фото нажмите 'Сохранить'.\n\n"
+                 f"Отправлено фото: {photos_count}",
             reply_markup=save_markup
         )
 
-        # Отправляем подтверждение
-        if media_group_id and user_data[user_id].get('album_photo_count', 1) > 1:
-            # Для альбома указываем количество фото
-            album_count = user_data[user_id]['album_photo_count']
-            start_num = count - album_count + 1
-            end_num = count
-            bot.send_message(
-                message.chat.id,
-                f"✅ Фото #{start_num}-#{end_num} получено. Можете отправить еще или нажмите 'Сохранить'."
-            )
-        else:
-            bot.send_message(
-                message.chat.id,
-                f"✅ Фото #{count} получено. Можете отправить еще или нажмите 'Сохранить'."
-            )
-
+        # Отправляем подтверждение получения
+        bot.reply_to(message, f"✅ Получено {len(photo_info)} фото. Отправлено всего: {photos_count}")
 
 @bot.message_handler(commands=['stats'])
 def show_stats(message):
