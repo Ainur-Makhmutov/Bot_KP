@@ -4,6 +4,7 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 import os
 from datetime import datetime
 from tabulate import tabulate
+import time
 
 bot = telebot.TeleBot('8347600297:AAEEcKnqelE7wg7Blu0NXRse3p3vpZnRfQY')
 
@@ -11,6 +12,8 @@ SAVE_FOLDER = "telegram_photos"
 if not os.path.exists(SAVE_FOLDER):
     os.makedirs(SAVE_FOLDER)
 
+# Глобальный словарь для хранения состояний пользователей и их фото
+user_data = {}
 
 # Создаем inline-клавиатуру с кнопками
 def create_inline_keyboard():
@@ -40,6 +43,8 @@ def send_welcome(message):
 # Обработчик нажатий на inline-кнопки
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback(call):
+    user_id = call.from_user.id
+
     if call.data == "send_screenshot":
         # Редактируем текущее сообщение и добавляем новую клавиатуру
         sendChoice_markup = InlineKeyboardMarkup(row_width=1)
@@ -57,6 +62,30 @@ def handle_callback(call):
             reply_markup=sendChoice_markup
         )
 
+    elif call.data == "current_week":
+        # Инициализируем данные пользователя
+        user_data[user_id] = {
+            'photos': [],
+            'current_message_id': call.message.message_id,
+            'last_photo_time': 0,
+            'photo_batch_count': 0
+        }
+
+        # Создаем клавиатуру для сохранения или отмены
+        save_markup = InlineKeyboardMarkup(row_width=2)
+        save_markup.add(
+            InlineKeyboardButton("Сохранить", callback_data="save_photos"),
+            InlineKeyboardButton("Отмена", callback_data="cancel_photos")
+        )
+
+        # Редактируем сообщение с инструкцией
+        bot.edit_message_text(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            text="Присылайте скриншоты. После отправки всех фото нажмите 'Сохранить'.\n\n"
+                 "Отправлено фото: 0",
+            reply_markup=save_markup
+        )
 
     elif call.data == "top20_statistics":
         top20choice_markup = InlineKeyboardMarkup(row_width=1)
@@ -133,31 +162,131 @@ def handle_callback(call):
             reply_markup=create_inline_keyboard()
         )
 
+    elif call.data == "save_photos":
+
+        if user_id in user_data and user_data[user_id]['photos']:
+
+            photos_count = len(user_data[user_id]['photos'])
+
+            # Очищаем таймеры если есть
+
+            user_data[user_id].pop('confirm_timer', None)
+
+            user_data[user_id].pop('pending_photos', None)
+
+            bot.edit_message_text(
+
+                chat_id=call.message.chat.id,
+
+                message_id=call.message.message_id,
+
+                text=f"✅ Сохранено {photos_count} фото за текущую неделю!"
+
+            )
+
+            del user_data[user_id]
+
+
+    elif call.data == "cancel_photos":
+
+        if user_id in user_data:
+            # Очищаем таймеры если есть
+
+            user_data[user_id].pop('confirm_timer', None)
+
+            user_data[user_id].pop('pending_photos', None)
+
+            del user_data[user_id]
+
+            sendChoice_markup = InlineKeyboardMarkup(row_width=1)
+
+            sendChoice_markup.add(
+
+                InlineKeyboardButton("Текущая неделя", callback_data="current_week"),
+
+                InlineKeyboardButton("Предыдущая неделя", callback_data="previous_week"),
+
+                InlineKeyboardButton("Неделя за период...", callback_data="week_period"),
+
+                InlineKeyboardButton("Назад", callback_data="back_main")
+
+            )
+
+            bot.edit_message_text(
+
+                chat_id=call.message.chat.id,
+
+                message_id=call.message.message_id,
+
+                text="Загрузка фото отменена. Выберите за какой период хотите прислать скриншоты:",
+
+                reply_markup=sendChoice_markup
+
+            )
+
     # Убираем часики "часики" (индикатор загрузки) с кнопки
     bot.answer_callback_query(call.id)
 
+
+# Обработчик для фото
 @bot.message_handler(content_types=['photo'])
 def handle_photos(message):
-    try:
-        # Получаем информацию о фото
-        file_id = message.photo[-1].file_id
-        file_info = bot.get_file(file_id)
-        downloaded_file = bot.download_file(file_info.file_path)
+    user_id = message.from_user.id
 
-        # Создаем уникальное имя файла
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        user_id = message.from_user.id
-        filename = f"photo_{user_id}_{timestamp}.jpg"
-        filepath = os.path.join(SAVE_FOLDER, filename)
+    if user_id in user_data:
+        photo_id = message.photo[-1].file_id
+        user_data[user_id]['photos'].append(photo_id)
 
-        # Сохраняем фото
-        with open(filepath, 'wb') as new_file:
-            new_file.write(downloaded_file)
+        # Используем media_group_id для определения альбомов
+        media_group_id = message.media_group_id
 
-        bot.reply_to(message, f"✅ Фото сохранено как: {filename}")
+        if media_group_id:
+            # Если это альбом, проверяем, первое ли это фото в группе
+            if media_group_id != user_data[user_id].get('last_media_group'):
+                # Это первое фото в альбоме
+                user_data[user_id]['last_media_group'] = media_group_id
+                user_data[user_id]['album_photo_count'] = 1
+            else:
+                # Продолжение альбома
+                user_data[user_id]['album_photo_count'] += 1
+                # Не отправляем сообщение для каждого фото в альбоме
+                return
+        else:
+            # Одиночное фото
+            user_data[user_id].pop('last_media_group', None)
+            user_data[user_id].pop('album_photo_count', None)
 
-    except Exception as e:
-        bot.reply_to(message, f"❌ Ошибка при сохранении: {str(e)}")
+        # Обновляем счетчик
+        count = len(user_data[user_id]['photos'])
+        save_markup = InlineKeyboardMarkup(row_width=2)
+        save_markup.add(
+            InlineKeyboardButton("Сохранить", callback_data="save_photos"),
+            InlineKeyboardButton("Отмена", callback_data="cancel_photos")
+        )
+
+        bot.edit_message_text(
+            chat_id=message.chat.id,
+            message_id=user_data[user_id]['current_message_id'],
+            text=f"Присылайте скриншоты. После отправки всех фото нажмите 'Сохранить'.\n\n"
+                 f"Отправлено фото: {count}",
+            reply_markup=save_markup
+        )
+
+        # Отправляем подтверждение
+        if media_group_id and user_data[user_id].get('album_photo_count', 1) > 1:
+            # Для альбома указываем количество фото
+            album_count = user_data[user_id]['album_photo_count']
+            start_num = count - album_count + 1
+            end_num = count
+            bot.send_message(
+                message.chat.id,
+                f"✅ Фото #{start_num}-#{end_num} получено. Можете отправить еще или нажмите 'Сохранить'."
+            )
+        else:
+            bot.send_message(
+                message.chat.id,
+                f"✅ Фото #{count} получено. Можете отправить еще или нажмите 'Сохранить'."
+            )
 
 
 @bot.message_handler(commands=['stats'])
