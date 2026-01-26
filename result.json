@@ -1,56 +1,50 @@
 {
-  "event_name": "Камень и сталь",
+  "event_name": "",
   "week": "Текущая неделя",
-  "total_players": 254,
+  "total_players": 0,
   "clans": [
     {
-      "position": 72,
-      "name": "Divine Alliance 2",
-      "tag": "DAII",
-      "points": 16956000
+      "position": 47,
+      "name": "",
+      "tag": "",
+      "points": 0
     },
     {
-      "position": 73,
-      "name": "wawllon",
-      "tag": "Regen",
-      "points": 16332000
+      "position": 48,
+      "name": "",
+      "tag": "",
+      "points": 0
     },
     {
-      "position": 74,
-      "name": "Sun and Moon",
-      "tag": "Moons",
-      "points": 14678000
+      "position": 50,
+      "name": "",
+      "tag": "",
+      "points": 0
     },
     {
-      "position": 75,
-      "name": "Chłopaki z Baraków",
-      "tag": "CzB",
-      "points": 14662000
+      "position": 51,
+      "name": "",
+      "tag": "",
+      "points": 0
     },
     {
-      "position": 76,
-      "name": "Братство стали",
-      "tag": "Steel",
-      "points": 14512000
+      "position": 52,
+      "name": "",
+      "tag": "",
+      "points": 0
     },
     {
-      "position": 77,
-      "name": "FarmVG",
-      "tag": "FVG",
-      "points": 14419000
+      "position": 53,
+      "name": "Кланы Всего: 277 de $92968837 Хранители SoIo Братство стали ГУНДОБАТ God 0fWac Назад • 590547144 • 587166833 • 582224568 • 566098060 • 562148032 • 558276868",
+      "tag": "",
+      "points": 0
     },
     {
-      "position": 78,
-      "name": "boss",
-      "tag": "zazz",
-      "points": 14322000
-    },
-    {
-      "position": 79,
-      "name": "BerserkerS",
-      "tag": "BerS",
-      "points": 14144000
+      "position": 557569728,
+      "name": "Осады",
+      "tag": "",
+      "points": 0
     }
   ],
-  "raw_ocr": "055\nСобытие — Камень и сталь\nТекущая неделя\nИгроки\nКланы\nВсего: 254\n72\nDivine Alliance 2 [DAII]\n16,956K\n73\nwawllon [Regen]\n16,332K\n74\nSun and Moon [Moons]\n14,678K\n75\n®\nChłopaki z Baraków\n[CzB]\n14,662K\n76\nБратство стали [Steel]\n14,512K\n77\nFarmVG [FVG]\n14,419K\n78\n®\nboss [zazz]\n14,322K\n79\nBerserkerS [BerS]\n14,144K\nПравила\nНазад"
+  "raw_ocr": "Осада Пески времени\r\nТекущая неделя\r\nИгроки\r\n47\r\n48\r\n50\r\n51\r\n52\r\n53\r\nКланы\r\nВсего: 277\r\nde $92968837\r\nХранители\r\nSoIo\r\nБратство стали\r\nГУНДОБАТ\r\nGod 0fWac\r\nНазад\r\n• 590547144\r\n• 587166833\r\n• 582224568\r\n• 566098060\r\n• 562148032\r\n• 558276868\r\n557569728\r\nОсады"
 }

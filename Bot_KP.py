@@ -2,11 +2,12 @@ import telebot
 from telebot import types
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 import os
-from datetime import datetime
-from tabulate import tabulate
-import time
-from collections import defaultdict
+from parser import parse_siege_screenshot
+import socks
+import socket
 
+socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)  # Порт тора
+socket.socket = socks.socksocket
 
 bot = telebot.TeleBot('8347600297:AAEEcKnqelE7wg7Blu0NXRse3p3vpZnRfQY')
 
@@ -15,11 +16,12 @@ SAVE_FOLDER = "telegram_photos"
 if not os.path.exists(SAVE_FOLDER):
     os.makedirs(SAVE_FOLDER)
 
-
-# Глобальный словарь для хранения состояний пользователей и их фото
-photo_data = []
 # Глобальный флаг для сохранения фото
 ENABLE_PHOTO_SAVING = False
+# список для хранения id фото
+photo_data = []
+# Период недели
+week_is = ""
 
 # Создаем начальную inline-клавиатуру с кнопками
 def create_inline_keyboard():
@@ -31,6 +33,24 @@ def create_inline_keyboard():
         InlineKeyboardButton("Статистика клана", callback_data="clan_statistics")
     )
     return markup
+
+
+#сохраняем фото по списку id фото
+def save_photo(call):
+    try:
+        for i in photo_data:
+            # Получаем информацию о файле
+            file_info = bot.get_file(i)
+            # Формируем путь для сохранения
+            file_path = os.path.join(SAVE_FOLDER, f"{photo_data.index(i)}.jpg")
+            # Скачиваем файл
+            downloaded_file = bot.download_file(file_info.file_path)
+            with open(file_path, 'wb') as new_file:
+                new_file.write(downloaded_file)
+        bot.send_message(call.message.chat.id, f"✅ Cохранено {len(photo_data)} Фото!")
+    except Exception as e:
+        bot.send_message(call.message.chat.id, f"Ошибка при сохранении фото: {e}")
+
 
 
 # Обработчик команды /start
@@ -49,15 +69,15 @@ def send_welcome(message):
 # Обработчик нажатий на inline-кнопки
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback(call):
-    global ENABLE_PHOTO_SAVING
+    global ENABLE_PHOTO_SAVING, week_is
 
     if call.data == "send_screenshot":
         # Редактируем текущее сообщение и добавляем новую клавиатуру
         sendChoice_markup = InlineKeyboardMarkup(row_width=1)
         sendChoice_markup.add(
-            InlineKeyboardButton("Текущая неделя", callback_data="current_week"),
-            InlineKeyboardButton("Предыдущая неделя", callback_data="previous_week"),
-            InlineKeyboardButton("Неделя за период...", callback_data="week_period"),
+            InlineKeyboardButton("Текущая неделя", callback_data="send_current_week"),
+            InlineKeyboardButton("Предыдущая неделя", callback_data="send_previous_week"),
+            InlineKeyboardButton("Неделя за период...", callback_data="send_week_period"),
             InlineKeyboardButton("Назад", callback_data="back_main")
         )
 
@@ -68,8 +88,10 @@ def handle_callback(call):
             reply_markup=sendChoice_markup
         )
 
-    elif call.data == "current_week":
+    elif call.data == "send_current_week":
         ENABLE_PHOTO_SAVING = True
+
+        week_is = "current_week"
 
         # Создаем клавиатуру для сохранения или отмены
         save_markup = InlineKeyboardMarkup(row_width=2)
@@ -82,7 +104,29 @@ def handle_callback(call):
         bot.edit_message_text(
             chat_id=call.message.chat.id,
             message_id=call.message.message_id,
-            text="📸 Теперь присылайте фото скриншотов.\n\n"
+            text="📸 Теперь присылайте фото скриншотов за текущую неделю.\n\n"
+                 "Можете отправлять по одному или несколько фото сразу (альбомом).\n"
+                 "После отправки всех фото нажмите 'Сохранить'.",
+            reply_markup=save_markup
+        )
+
+    elif call.data == "send_previous_week":
+        ENABLE_PHOTO_SAVING = True
+
+        week_is = "previous_week"
+
+        # Создаем клавиатуру для сохранения или отмены
+        save_markup = InlineKeyboardMarkup(row_width=2)
+        save_markup.add(
+            InlineKeyboardButton("Сохранить", callback_data="save_photos"),
+            InlineKeyboardButton("Отмена", callback_data="cancel_photos")
+        )
+
+        # Редактируем сообщение с инструкцией
+        bot.edit_message_text(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            text="📸 Теперь присылайте фото скриншотов за предыдущую неделю.\n\n"
                  "Можете отправлять по одному или несколько фото сразу (альбомом).\n"
                  "После отправки всех фото нажмите 'Сохранить'.",
             reply_markup=save_markup
@@ -166,19 +210,17 @@ def handle_callback(call):
     elif call.data == "save_photos":
         ENABLE_PHOTO_SAVING = False
 
+        save_photo(call)
+
         try:
             for i in photo_data:
-                # Получаем информацию о файле
-                file_info = bot.get_file(i)
-                # Формируем путь для сохранения
-                file_path = os.path.join(SAVE_FOLDER, f"{photo_data.index(i)}.jpg")
-                # Скачиваем файл
-                downloaded_file = bot.download_file(file_info.file_path)
-                with open(file_path, 'wb') as new_file:
-                    new_file.write(downloaded_file)
-            bot.send_message(call.message.chat.id, f"✅ Cохранено {len(photo_data)} Фото!")
+                image_path = SAVE_FOLDER + "/" + str(photo_data.index(i)) + ".jpg"
+                parse_siege_screenshot(image_path)
+
+            bot.send_message(call.message.chat.id, f"✅ Обработано {len(photo_data)} Фото!")
         except Exception as e:
-            bot.send_message(call.message.chat.id, f"Ошибка при сохранении фото: {e}")
+            bot.send_message(call.message.chat.id, f"Ошибка парсинга фото: {e}")
+
 
         photo_data.clear()
 
@@ -186,11 +228,11 @@ def handle_callback(call):
 
         sendChoice_markup.add(
 
-            InlineKeyboardButton("Текущая неделя", callback_data="current_week"),
+            InlineKeyboardButton("Текущая неделя", callback_data="send_current_week"),
 
-            InlineKeyboardButton("Предыдущая неделя", callback_data="previous_week"),
+            InlineKeyboardButton("Предыдущая неделя", callback_data="send_previous_week"),
 
-            InlineKeyboardButton("Неделя за период...", callback_data="week_period"),
+            InlineKeyboardButton("Неделя за период...", callback_data="send_week_period"),
 
             InlineKeyboardButton("Назад", callback_data="back_main")
 
@@ -215,11 +257,11 @@ def handle_callback(call):
 
         sendChoice_markup.add(
 
-            InlineKeyboardButton("Текущая неделя", callback_data="current_week"),
+            InlineKeyboardButton("Текущая неделя", callback_data="send_current_week"),
 
-            InlineKeyboardButton("Предыдущая неделя", callback_data="previous_week"),
+            InlineKeyboardButton("Предыдущая неделя", callback_data="send_previous_week"),
 
-            InlineKeyboardButton("Неделя за период...", callback_data="week_period"),
+            InlineKeyboardButton("Неделя за период...", callback_data="send_week_period"),
 
             InlineKeyboardButton("Назад", callback_data="back_main")
 

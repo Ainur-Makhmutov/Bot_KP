@@ -5,10 +5,8 @@ import re
 import socks
 import socket
 
-
-socks.set_default_proxy(socks.SOCKS5, "localhost", 9150) # Порт тора
-socket.socket = socks.socksocket
-
+# socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)  # Порт тора
+# socket.socket = socks.socksocket
 
 # ====== OCR.Space API ======
 def ocr_space_api(image_path):
@@ -209,7 +207,7 @@ if __name__ == "__main__":
     print("=" * 60)
 
     # путь к скриншоту
-    path_image = "telegram_photos/photo_1960868942_20260120_235005.jpg"
+    path_image = "telegram_photos/0.jpg"
 
     if os.path.exists(path_image):
         result = parse_siege_screenshot(path_image)
