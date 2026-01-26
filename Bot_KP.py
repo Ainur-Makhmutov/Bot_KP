@@ -164,12 +164,14 @@ def handle_callback(call):
         )
 
     elif call.data == "save_photos":
+        ENABLE_PHOTO_SAVING = False
+
         try:
             for i in photo_data:
                 # Получаем информацию о файле
                 file_info = bot.get_file(i)
                 # Формируем путь для сохранения
-                file_path = os.path.join(SAVE_FOLDER, f"{i}.jpg")
+                file_path = os.path.join(SAVE_FOLDER, f"{photo_data.index(i)}.jpg")
                 # Скачиваем файл
                 downloaded_file = bot.download_file(file_info.file_path)
                 with open(file_path, 'wb') as new_file:
@@ -244,29 +246,6 @@ def handle_photo(message):
     file_id = message.photo[-1].file_id
     # Добавляем в список id фото
     photo_data.append(file_id)
-
-
-
-# Обработчик для фото, отправленных как Photo
-# @bot.message_handler(content_types=['photo'])
-# def handle_photo(message):
-#     try:
-#         # Получаем file_id самого большого размера (последний в списке)
-#         file_id = message.photo[-1].file_id
-#         # Получаем информацию о файле
-#         file_info = bot.get_file(file_id)
-#         # Формируем путь для сохранения
-#         file_path = os.path.join(SAVE_FOLDER, f"{file_id}.jpg")
-#         # Скачиваем файл
-#         downloaded_file = bot.download_file(file_info.file_path)
-#         with open(file_path, 'wb') as new_file:
-#             new_file.write(downloaded_file)
-#         bot.reply_to(message, f"Фото сохранено! ({file_path})")
-#     except Exception as e:
-#         bot.reply_to(message, f"Ошибка при сохранении фото: {e}")
-
-
-
 
 
 @bot.message_handler(commands=['stats'])
