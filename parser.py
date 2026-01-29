@@ -5,8 +5,8 @@ import re
 import socks
 import socket
 
-# socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)  # Порт тора
-# socket.socket = socks.socksocket
+socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)  # Порт тора
+socket.socket = socks.socksocket
 
 # ====== OCR.Space API ======
 def ocr_space_api(image_path):
@@ -24,7 +24,7 @@ def ocr_space_api(image_path):
 
             payload = {
                 'apikey': api_key,  # ключ
-                'language': 'rus',  # Русский язык
+                'language': 'auto',  # Русский язык
                 'isOverlayRequired': False,
                 'OCREngine': 2,  # Более точный движок
                 'detectOrientation': True,

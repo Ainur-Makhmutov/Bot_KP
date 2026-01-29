@@ -5,46 +5,100 @@
   "clans": [
     {
       "position": 47,
-      "name": "",
+      "name": "Кланы Всего: 277 appel de l'aventur",
       "tag": "",
       "points": 0
     },
     {
       "position": 48,
-      "name": "",
+      "name": "хранители",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 49,
+      "name": "深夜手",
       "tag": "",
       "points": 0
     },
     {
       "position": 50,
-      "name": "",
+      "name": "Solo Piratas",
       "tag": "",
       "points": 0
     },
     {
       "position": 51,
-      "name": "",
+      "name": "Братство стали",
       "tag": "",
       "points": 0
     },
     {
       "position": 52,
-      "name": "",
+      "name": "WTW",
       "tag": "",
       "points": 0
     },
     {
       "position": 53,
-      "name": "Кланы Всего: 277 de $92968837 Хранители SoIo Братство стали ГУНДОБАТ God 0fWac Назад • 590547144 • 587166833 • 582224568 • 566098060 • 562148032 • 558276868",
+      "name": "ГУНДОБАТ",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 54,
+      "name": "God of War",
       "tag": "",
       "points": 0
     },
     {
       "position": 557569728,
-      "name": "Осады",
+      "name": "Назад Осады",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 558276868,
+      "name": "",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 562148032,
+      "name": "",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 566098060,
+      "name": "",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 582224568,
+      "name": "",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 587166833,
+      "name": "",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 590547144,
+      "name": "",
+      "tag": "",
+      "points": 0
+    },
+    {
+      "position": 592968837,
+      "name": "",
       "tag": "",
       "points": 0
     }
   ],
-  "raw_ocr": "Осада Пески времени\r\nТекущая неделя\r\nИгроки\r\n47\r\n48\r\n50\r\n51\r\n52\r\n53\r\nКланы\r\nВсего: 277\r\nde $92968837\r\nХранители\r\nSoIo\r\nБратство стали\r\nГУНДОБАТ\r\nGod 0fWac\r\nНазад\r\n• 590547144\r\n• 587166833\r\n• 582224568\r\n• 566098060\r\n• 562148032\r\n• 558276868\r\n557569728\r\nОсады"
+  "raw_ocr": "7ตา24\nممميم\nОсада - Пески времени\nТекущая неделя\nИгроки\n47\nКланы\nВсего: 277\nappel de l'aventur\n592968837\n48\nхранители\n590547144\n49\n深夜手\n587166833\n50\nSolo Piratas\n582224568\n51\nБратство стали\n566098060\n52\nWTW\n562148032\n53\nГУНДОБАТ\n558276868\n54\nGod of War\n557569728\nНазад\nОсады"
 }
