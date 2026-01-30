@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 import os
-from parser import parse_siege_screenshot
+from parser import parse_screenshot
 import socks
 import socket
 
@@ -70,6 +70,11 @@ def send_welcome(message):
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback(call):
     global ENABLE_PHOTO_SAVING, week_is
+
+    try:
+        bot.answer_callback_query(call.id)
+    except Exception as e:
+        print(f"Callback answer failed (might be old): {e}")
 
     if call.data == "send_screenshot":
         # Редактируем текущее сообщение и добавляем новую клавиатуру
@@ -278,7 +283,7 @@ def handle_callback(call):
         )
 
     # Убираем часики "часики" (индикатор загрузки) с кнопки
-    bot.answer_callback_query(call.id)
+    # bot.answer_callback_query(call.id)
 
 
 # Обработчик для фото со включенным флагом

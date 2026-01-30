@@ -10,6 +10,8 @@ socket.socket = socks.socksocket
 
 # ====== OCR.Space API ======
 def ocr_space_api(image_path):
+    socks.set_default_proxy(socks.SOCKS5, "localhost", 9150)  # Порт тора
+    socket.socket = socks.socksocket
 
     try:
         with open(image_path, 'rb') as image_file:
@@ -47,14 +49,35 @@ def ocr_space_api(image_path):
     except Exception as e:
         return f"Ошибка запроса: {str(e)}"
 
+def screenshot_templates (ocr_text):
+    lines = ocr_text
 
-# ====== 2 вида шаблона извлечения данных ======
+    if "Осада -" in lines and "Братство стали" in lines:
+        pattern = r'Братство стали\n(\d+)'
+        match = re.search(pattern, lines)
+        if match:
+            return match.group(1)
+    elif "Событие —" in lines and "Братство стали" in lines:
+        pattern = r'Братство стали.*?(\d[\d,]*K)'
+        match = re.search(pattern, lines)
+        if match:
+            return match.group(1)
+
+    return None
+
+
+
+
+
+# ====== 6 видов шаблона извлечения данных ======
 def parse_ocr_text(ocr_text):
     """
     Парсит текст, полученный от OCR, в структурированный формат
     """
+
     # Разбиваем текст на строки и убираем пустые
     lines = [line.strip() for line in ocr_text.split('\n') if line.strip()]
+
 
     # Инициализируем структуру данных
     parsed_data = {
@@ -175,9 +198,9 @@ def parse_ocr_text(ocr_text):
 
     return parsed_data
 
-def parse_siege_screenshot(image_path):
+def parse_screenshot(image_path):
     """
-    Основная функция для парсинга скриншота осады
+    Основная функция для парсинга скриншота
     """
 
     # Шаг 1: Получаем текст через OCR
@@ -187,6 +210,8 @@ def parse_siege_screenshot(image_path):
     ocr_text = ocr_space_api(image_path)
 
     print(ocr_text)
+
+    print (f"очень важный вывод: {screenshot_templates(ocr_text)}")
     # Проверяем на ошибки
     if "Ошибка" in ocr_text or ocr_text.startswith("Таймаут"):
         return {"error": ocr_text, "raw_text": ""}
@@ -197,6 +222,14 @@ def parse_siege_screenshot(image_path):
     print("🔄 Анализ данных...")
     parsed_data = parse_ocr_text(ocr_text)
     parsed_data["raw_ocr"] = ocr_text[:500] + "..." if len(ocr_text) > 500 else ocr_text
+
+    if "error" not in parsed_data:
+        # Сохраняем результат
+        with open("result.json", "w", encoding="utf-8") as f:
+            json.dump(parsed_data, f, ensure_ascii=False, indent=2)
+        print("\n💾 Результат сохранен в result.json")
+    else:
+        print(f"❌ API метод не сработал: {parsed_data['error']}")
 
     return parsed_data
 
@@ -210,7 +243,7 @@ if __name__ == "__main__":
     path_image = "telegram_photos/0.jpg"
 
     if os.path.exists(path_image):
-        result = parse_siege_screenshot(path_image)
+        result = parse_screenshot(path_image)
 
         if "error" not in result:
             # Сохраняем результат
