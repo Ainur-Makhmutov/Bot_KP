@@ -220,7 +220,7 @@ def handle_callback(call):
         try:
             for i in photo_data:
                 image_path = SAVE_FOLDER + "/" + str(photo_data.index(i)) + ".jpg"
-                parse_siege_screenshot(image_path)
+                parse_screenshot(image_path)
 
             bot.send_message(call.message.chat.id, f"✅ Обработано {len(photo_data)} Фото!")
         except Exception as e:

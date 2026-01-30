@@ -74,7 +74,7 @@ def parse_ocr_text(ocr_text):
     """
     Парсит текст, полученный от OCR, в структурированный формат
     """
-
+    print(ocr_text)
     # Разбиваем текст на строки и убираем пустые
     lines = [line.strip() for line in ocr_text.split('\n') if line.strip()]
 

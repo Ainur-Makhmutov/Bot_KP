@@ -79,6 +79,75 @@ def screenshot_templates (ocr_text, image_path):
 
             return f"{event_name}: {value}"
 
+    elif "Осада -" in lines and "Братство стали" not in lines:
+        # скриншот - значение топ 20 в осаде
+
+        # Название осады
+        siege_match = re.search(r'Осада - (.+?)\n', lines)
+        siege_name = siege_match.group(1) if siege_match else "Неизвестная осада"
+
+        # Паттерн для поиска записей: позиция\n имя\n значение
+        # Учитываем, что имя может содержать пробелы, скобки и другие символы
+        pattern = r'(\d+)\s*\n\s*([^\n]+?)\s*\n\s*([\d,]+[KMB]?)'
+
+        matches = re.findall(pattern, lines)
+
+        results = []
+        for match in matches:
+            position = int(match[0])
+            name = match[1].strip()
+            value = match[2]
+
+            value = convert_formatted_number(value)
+
+            results.append({
+                'position': position,
+                'name': name,
+                'value': value
+            })
+
+        # Сортируем по позиции на случай, если порядок нарушен
+        results.sort(key=lambda x: x['position'])
+
+        return {
+            'name': siege_name,
+            'players': results,
+        }
+
+    elif "Событие —" in lines and "Братство стали" not in lines:
+        # скриншот - значение топ 20 в событии
+
+        # Название события
+        event_match = re.search(r'Событие — (.+?)\n', lines)
+        event_name = event_match.group(1) if event_match else "Неизвестное событие"
+
+        # Паттерн для поиска записей: позиция\n имя\n значение
+        # Учитываем, что имя может содержать пробелы, скобки и другие символы
+        pattern = r'(\d+)\s*\n\s*([^\n]+?)\s*\n\s*([\d,]+[KMB]?)'
+
+        matches = re.findall(pattern, lines)
+
+        results = []
+        for match in matches:
+            position = int(match[0])
+            name = match[1].strip()
+            value = match[2]
+
+            value = convert_formatted_number(value)
+
+            results.append({
+                'position': position,
+                'name': name,
+                'value': value
+            })
+
+        # Сортируем по позиции на случай, если порядок нарушен
+        results.sort(key=lambda x: x['position'])
+
+        return {
+            'name': event_name,
+            'players': results,
+        }
 
     return None
 
@@ -86,7 +155,10 @@ def screenshot_templates (ocr_text, image_path):
 ocr_text_siege = "7ตา24\nممميم\nОсада - Пески времени\nТекущая неделя\nИгроки\n47\nКланы\nВсего: 277\nappel de l'aventur\n592968837\n48\nхранители\n590547144\n49\n深夜手\n587166833\n50\nSolo Piratas\n582224568\n51\nБратство стали\n566098060\n52\nWTW\n562148032\n53\nГУНДОБАТ\n558276868\n54\nGod of War\n557569728\nНазад\nОсады"
 ocr_text_event = "Событие — Камень и сталь\nТекущая неделя\nИгроки\nКланы\nВсего: 314\n60\nXandFarm [XFarm]\n74,817K\n61\nPraid 2 [Pra]\n74,394K\n62\nLosT [SLONs]\n73,392K\n63\nБлеск молнии [FLASH]\n71,199K\n64\nБратство стали [Steel]\n70,989K\n65\nCampGroundA [CampA]\n70,547K\n66\nBaGGi [BAGG]\n69,663K\n67\nCLAN [CLan]\n69,365K\nПравила\nНазад"
 
-print (f"очень важный вывод: {screenshot_templates(ocr_text_siege)}")
+ocr_text_siegeTop20 = "عمدام\nОсада - Пески времени\nТекущая неделя\nИгроки\nКланы\nВсего: 1371\n1\nБадун [DoP]\n6970094485\n2\nMarty McFly [DoP]\n4183196699\n3\nsten [dlk]\n3657738586\nGnom [GDI]\n3348750000\n5\nАндрюха Россия [GDI]\n3087538946\nbond007 [RayDK]\n2802500000\n7\nYoneu [GDI]\n2747068064\n8\nАртем [GDI]\n2217322031\nНазад\nОсады"
+ocr_text_eventTop20 = "Событие — Камень и сталь\nТекущая неделя\nИгроки\nКланы\nВсего: 1386\nSarpiton [DoP]\n541M\n2\nDeDok [DoP]\n465M\nАрсен [MeD]\n342M\nХазар [DoP]\n287M\nIrisKissKiss [DoP]\n256M\n6\nАртем [GDI]\n222M\nBatusai [DoP]\n211M\nShytnik [DAS]\n192M\nПравила\nНазад"
+
+print (f"очень важный вывод: {screenshot_templates(ocr_text_siegeTop20, "1")}")
 
 # Тестируем
 # test_cases = [

@@ -1,104 +1,20 @@
 {
-  "event_name": "",
+  "event_name": "Камень и сталь",
   "week": "Текущая неделя",
-  "total_players": 0,
+  "total_players": 1386,
   "clans": [
     {
-      "position": 47,
-      "name": "Кланы Всего: 277 appel de l'aventur",
-      "tag": "",
+      "position": 2,
+      "name": "DeDok465M Арсен342M Хазар287M IrisKissKiss256M",
+      "tag": "DoP",
       "points": 0
     },
     {
-      "position": 48,
-      "name": "хранители",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 49,
-      "name": "深夜手",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 50,
-      "name": "Solo Piratas",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 51,
-      "name": "Братство стали",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 52,
-      "name": "WTW",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 53,
-      "name": "ГУНДОБАТ",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 54,
-      "name": "God of War",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 557569728,
-      "name": "Назад Осады",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 558276868,
-      "name": "",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 562148032,
-      "name": "",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 566098060,
-      "name": "",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 582224568,
-      "name": "",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 587166833,
-      "name": "",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 590547144,
-      "name": "",
-      "tag": "",
-      "points": 0
-    },
-    {
-      "position": 592968837,
-      "name": "",
-      "tag": "",
+      "position": 6,
+      "name": "Артем222M Batusai211M Shytnik192M Правила Назад",
+      "tag": "GDI",
       "points": 0
     }
   ],
-  "raw_ocr": "7ตา24\nممميم\nОсада - Пески времени\nТекущая неделя\nИгроки\n47\nКланы\nВсего: 277\nappel de l'aventur\n592968837\n48\nхранители\n590547144\n49\n深夜手\n587166833\n50\nSolo Piratas\n582224568\n51\nБратство стали\n566098060\n52\nWTW\n562148032\n53\nГУНДОБАТ\n558276868\n54\nGod of War\n557569728\nНазад\nОсады"
+  "raw_ocr": "Событие — Камень и сталь\nТекущая неделя\nИгроки\nКланы\nВсего: 1386\nSarpiton [DoP]\n541M\n2\nDeDok [DoP]\n465M\nАрсен [MeD]\n342M\nХазар [DoP]\n287M\nIrisKissKiss [DoP]\n256M\n6\nАртем [GDI]\n222M\nBatusai [DoP]\n211M\nShytnik [DAS]\n192M\nПравила\nНазад"
 }
