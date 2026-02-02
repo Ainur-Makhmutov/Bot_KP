@@ -88,30 +88,33 @@ def screenshot_templates (ocr_text, image_path):
 
         # Паттерн для поиска записей: позиция\n имя\n значение
         # Учитываем, что имя может содержать пробелы, скобки и другие символы
-        pattern = r'(\d+)\s*\n\s*([^\n]+?)\s*\n\s*([\d,]+[KMB]?)'
+        pattern = r'\n([^\n\d][^\n]*?)\s*\n\s*([\d,]+[KMB]?\b)'
 
         matches = re.findall(pattern, lines)
 
         results = []
         for match in matches:
-            position = int(match[0])
-            name = match[1].strip()
-            value = match[2]
+            name = match[0].strip()
+            value_str = match[1]
 
-            value = convert_formatted_number(value)
+            if 'Всего:' in name:
+                continue
+
+            value = convert_formatted_number(value_str)
 
             results.append({
-                'position': position,
                 'name': name,
-                'value': value
+                'value': value,
+                'value_str': value_str
             })
 
         # Сортируем по позиции на случай, если порядок нарушен
-        results.sort(key=lambda x: x['position'])
+        # results.sort(key=lambda x: x['position'])
 
         return {
             'name': siege_name,
             'players': results,
+            'total': len(results)
         }
 
     elif "Событие —" in lines and "Братство стали" not in lines:
@@ -123,30 +126,33 @@ def screenshot_templates (ocr_text, image_path):
 
         # Паттерн для поиска записей: позиция\n имя\n значение
         # Учитываем, что имя может содержать пробелы, скобки и другие символы
-        pattern = r'(\d+)\s*\n\s*([^\n]+?)\s*\n\s*([\d,]+[KMB]?)'
+        pattern = r'\n([^\n\d][^\n]*?)\s*\n\s*([\d,]+[KMB]?\b)'
 
         matches = re.findall(pattern, lines)
 
         results = []
         for match in matches:
-            position = int(match[0])
-            name = match[1].strip()
-            value = match[2]
+            name = match[0].strip()
+            value_str = match[1]
 
-            value = convert_formatted_number(value)
+            if 'Всего:' in name:
+                continue
+
+            value = convert_formatted_number(value_str)
 
             results.append({
-                'position': position,
                 'name': name,
-                'value': value
+                'value': value,
+                'value_str': value_str
             })
 
         # Сортируем по позиции на случай, если порядок нарушен
-        results.sort(key=lambda x: x['position'])
+        # results.sort(key=lambda x: x['position'])
 
         return {
             'name': event_name,
             'players': results,
+            'total': len(results)
         }
 
     return None
@@ -158,18 +164,4 @@ ocr_text_event = "Событие — Камень и сталь\nТекущая 
 ocr_text_siegeTop20 = "عمدام\nОсада - Пески времени\nТекущая неделя\nИгроки\nКланы\nВсего: 1371\n1\nБадун [DoP]\n6970094485\n2\nMarty McFly [DoP]\n4183196699\n3\nsten [dlk]\n3657738586\nGnom [GDI]\n3348750000\n5\nАндрюха Россия [GDI]\n3087538946\nbond007 [RayDK]\n2802500000\n7\nYoneu [GDI]\n2747068064\n8\nАртем [GDI]\n2217322031\nНазад\nОсады"
 ocr_text_eventTop20 = "Событие — Камень и сталь\nТекущая неделя\nИгроки\nКланы\nВсего: 1386\nSarpiton [DoP]\n541M\n2\nDeDok [DoP]\n465M\nАрсен [MeD]\n342M\nХазар [DoP]\n287M\nIrisKissKiss [DoP]\n256M\n6\nАртем [GDI]\n222M\nBatusai [DoP]\n211M\nShytnik [DAS]\n192M\nПравила\nНазад"
 
-print (f"очень важный вывод: {screenshot_templates(ocr_text_siegeTop20, "1")}")
-
-# Тестируем
-# test_cases = [
-#     "70,989K",    # 70,989 * 1000 = 70,989,000
-#     "1.5M",       # 1.5 * 1,000,000 = 1,500,000
-#     "123K",       # 123 * 1000 = 123,000
-#     "456",        # 456
-#     "1,234.56K",  # 1234.56 * 1000 = 1,234,560
-# ]
-#
-# print("Правильное преобразование с учетом множителей:")
-# for test in test_cases:
-#     result = convert_formatted_number(test)
-#     print(result)
+print (f"очень важный вывод: {screenshot_templates(ocr_text_eventTop20, "1")}")
